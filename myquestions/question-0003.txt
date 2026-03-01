@@ -1,0 +1,12 @@
+Una empresa de e-commerce tiene un dataset con muchísimas variables de comportamiento de usuario. El equipo de marketing quiere agrupar a los clientes en segmentos, pero sospechan que hay demasiada redundancia en los datos (columnas altamente correlacionadas) que ensucian los grupos.
+Tu Misión
+
+Escribe una función llamada segmentar_usuarios(df, n_componentes, n_clusters) que realice lo siguiente:
+
+    Limpieza: Elimine cualquier fila que contenga valores nulos (NaN).
+
+    Reducción de Dimensionalidad: Aplique PCA (Principal Component Analysis) para reducir el dataset al número de n_componentes especificado. Esto ayuda a eliminar el "ruido" y la redundancia.
+
+    Agrupamiento: Utilice el algoritmo K-Means sobre los componentes obtenidos de PCA para crear n_clusters. Use un random_state=42 para asegurar que el resultado sea reproducible.
+
+    Asignación: Añada una nueva columna al DataFrame original (el que ya no tiene nulos) llamada 'Segmento' con las etiquetas obtenidas.

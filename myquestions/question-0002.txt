@@ -1,0 +1,20 @@
+El Problema: El Laberinto de las Características
+
+Imagina que trabajas para una entidad de salud pública. Tienes un dataset con 100 variables diferentes sobre hábitos de vida, pero sospechas que muchas están correlacionadas o son "ruido". Para que tu modelo sea eficiente y explicable, necesitas reducir la complejidad sin perder la esencia de la información.
+Tu Misión:
+
+Escribe una función llamada optimizar_dimensiones(df, target_col, n_componentes=2) que realice lo siguiente:
+
+    Separación: Separa las características (X) de la variable objetivo (y).
+
+    Estandarización: Aplica StandardScaler a X (paso obligatorio antes de PCA).
+
+    Reducción de Ruido (PCA): Aplica PCA (Análisis de Componentes Principales) para transformar las características originales en el número de componentes especificado (n_componentes).
+
+    Selección de Importancia: Entrena un modelo de RandomForestClassifier con los datos originales escalados (no los de PCA) para obtener la importancia de las variables.
+
+    Retorno: La función debe devolver una tupla con:
+
+        La matriz de entrenamiento transformada por PCA (numpy array).
+
+        El vector de importancia de características del Random Forest (numpy array).

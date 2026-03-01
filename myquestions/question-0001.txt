@@ -1,0 +1,22 @@
+El Problema
+
+Trabajas con un conjunto de datos genómicos que tiene cientos de columnas, pero sospechas que muchas de ellas son redundantes. Para que tu modelo de Machine Learning no sufra de la "maldición de la dimensionalidad", necesitas reducir el número de variables manteniendo al menos el 95% de la información (varianza) original.
+Tu Misión
+
+Escribe una función llamada optimizar_dimensiones(df, target_col) que realice lo siguiente:
+
+    Separación: Separe las características (X) de la etiqueta objetivo (y) usando target_col.
+
+    Escalamiento: Aplique un StandardScaler a X. El Análisis de Componentes Principales (PCA) es extremadamente sensible a las escalas, por lo que este paso es obligatorio.
+
+    Reducción (PCA): Aplique la técnica PCA de sklearn para encontrar el número mínimo de componentes que expliquen, como mínimo, el 95% de la varianza acumulada.
+
+    Transformación: Transforme los datos originales a este nuevo espacio de menor dimensión.
+
+    Retorno: La función debe devolver una tupla con tres elementos:
+
+        El objeto pca entrenado.
+
+        La matriz X transformada (como array de numpy).
+
+        El número de componentes finales obtenidos (como entero).

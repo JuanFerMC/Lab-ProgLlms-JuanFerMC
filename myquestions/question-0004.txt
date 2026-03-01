@@ -1,0 +1,16 @@
+El Problema
+
+Una planta de energía monitoriza la temperatura de sus turbinas. Los fallos suelen venir precedidos por cambios bruscos que no se detectan con un promedio simple. Necesitas crear una función que prepare "ventanas de tiempo" y clasifique si el estado es Crítico o Normal basándose en la volatilidad de los datos.
+Tu Misión
+
+Escribe una función llamada analizar_sensores(df, ventana=3) que realice lo siguiente:
+
+    Ingeniería de Características: Crea una nueva columna llamada Volatilidad que sea la desviación estándar móvil (rolling standard deviation) de la columna 'Temperatura', usando el tamaño de ventana proporcionado.
+
+    Limpieza: Elimina las filas resultantes que contengan NaN (debido al cálculo del rolling window).
+
+    Etiquetado Automático: Crea la variable objetivo y (target): si la Volatilidad es superior al percentil 90 de todos los datos, la etiqueta es 1 (Anomalía), de lo contrario es 0 (Normal).
+
+    Modelado: Entrena un modelo de Random Forest Classifier (n_estimators=100, random_state=42) utilizando únicamente la Volatilidad y la Temperatura original como características (X).
+
+    Evaluación: Realiza una división de datos (80% train, 20% test) y calcula la Precisión (Precision Score) para evitar falsas alarmas.
