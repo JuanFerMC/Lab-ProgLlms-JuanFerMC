@@ -3,7 +3,7 @@ El Problema
 Trabajas con un conjunto de datos genómicos que tiene cientos de columnas, pero sospechas que muchas de ellas son redundantes. Para que tu modelo de Machine Learning no sufra de la "maldición de la dimensionalidad", necesitas reducir el número de variables manteniendo al menos el 95% de la información (varianza) original.
 Tu Misión
 
-Escribe una función llamada optimizar_dimensiones(df, target_col) que realice lo siguiente:
+Escribe una función llamada optimization(df, target_col) que realice lo siguiente:
 
     Separación: Separe las características (X) de la etiqueta objetivo (y) usando target_col.
 

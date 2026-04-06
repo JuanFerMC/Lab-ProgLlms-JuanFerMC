@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
 
-def generar_caso_de_uso_optimizar_dimensiones():
+def generar_caso_de_uso_optimization():
     rng = np.random.default_rng()
 
     target_col = str(rng.choice(
@@ -63,7 +63,7 @@ def generar_caso_de_uso_optimizar_dimensiones():
 
 
 if __name__ == "__main__":
-    i, o = generar_caso_de_uso_optimizar_dimensiones()
+    i, o = generar_caso_de_uso_optimization()
 
     print('---- inputs ----')
     for k, v in i.items():
