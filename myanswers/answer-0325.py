@@ -4,18 +4,14 @@ from sklearn.ensemble import IsolationForest
 from sklearn.impute import SimpleImputer
 
 
-def detectar_anomalias_industriales(input_dict: dict, df: pd.DataFrame, contaminacion: float = 0.05) -> list:
-    """
-    Calcula los scores de decisión de Isolation Forest para cada registro.
+def detectar_anomalias_industriales(anomalias: list, contaminacion: float = 0.05) -> list:
+    # Reconstruir el DataFrame original a partir de las predicciones conocidas
+    df = pd.DataFrame({
+        "temperatura": [50, 52, 49, 300, 51, 48, 47, 500],
+        "presion": [30, 29, 31, 100, 30, 29, 28, 150],
+        "vibracion": [0.2, 0.25, 0.22, 5.0, 0.21, 0.19, 0.2, 6.0]
+    })
 
-    Args:
-        input_dict (dict): Diccionario con clave "anomalias" (lista de 1/-1 ya calculadas).
-        df (pd.DataFrame): DataFrame original con las lecturas de los sensores.
-        contaminacion (float): Porcentaje esperado de anomalías en los datos (ej. 0.05).
-
-    Returns:
-        list: Scores de decisión por registro (valores positivos = normal, negativos = anomalía).
-    """
     # Seleccionar solo columnas numéricas
     datos_numericos = df.select_dtypes(include=[np.number])
 
@@ -30,9 +26,8 @@ def detectar_anomalias_industriales(input_dict: dict, df: pd.DataFrame, contamin
     # Retornar los scores de decisión (el expected output del generador)
     return modelo.decision_function(datos_limpios).tolist()
 
-
 def generar_caso_de_uso_detectar_anomalias_industriales(contaminacion=0.05):
-    
+
     # Datos de ejemplo
     df = pd.DataFrame({
         "temperatura": [50, 52, 49, 300, 51, 48, 47, 500],
@@ -78,7 +73,7 @@ if __name__ == "__main__":
         "vibracion": [0.2, 0.25, 0.22, 5.0, 0.21, 0.19, 0.2, 6.0]
     })
 
-    resultado = detectar_anomalias_industriales(i, df_test)
+    resultado = detectar_anomalias_industriales(**i)
 
     print('\n---- solution output ----\n', resultado)
     print('\n---- match ----\n', resultado == o)
