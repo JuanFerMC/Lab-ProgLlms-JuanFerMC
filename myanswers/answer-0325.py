@@ -3,65 +3,68 @@ import numpy as np
 from sklearn.ensemble import IsolationForest
 from sklearn.impute import SimpleImputer
 
-# ==========================================
-# 1. FUNCIÓN DE SOLUCIÓN
-# ==========================================
-def detectar_anomalias_sensores(df, contaminacion=0.05):
+
+def detectar_anomalias_industriales(df: pd.DataFrame, contaminacion: float = 0.05) -> np.ndarray:
     """
-    Identifica anomalías en registros de sensores y devuelve los puntajes de decisión.
+    Detecta anomalías en lecturas de sensores industriales usando Isolation Forest.
+
+    Args:
+        df (pd.DataFrame): DataFrame con lecturas de sensores (columnas numéricas).
+        contaminacion (float): Porcentaje esperado de anomalías en los datos (ej. 0.05).
+
+    Returns:
+        numpy.ndarray: Array con 1 para datos normales y -1 para anomalías.
     """
-    # Selección de columnas numéricas
+    # Seleccionar solo columnas numéricas
     datos_numericos = df.select_dtypes(include=[np.number])
 
-    # Imputación por mediana para asegurar que no haya valores nulos
+    # Imputar valores faltantes con la mediana
     imputador = SimpleImputer(strategy='median')
     datos_limpios = imputador.fit_transform(datos_numericos)
 
-    # Entrenamiento del modelo Isolation Forest
+    # Entrenar el modelo Isolation Forest
     modelo = IsolationForest(contamination=contaminacion, random_state=42)
-    modelo.fit(datos_limpios)
-    
-    # El decision_function devuelve el score de anomalía (más bajo = más anómalo)
-    scores = modelo.decision_function(datos_limpios)
 
-    return scores.tolist()
+    # Retornar predicciones: 1 = normal, -1 = anomalía
+    return modelo.fit_predict(datos_limpios)
 
-# ==========================================
-# 2. GENERADOR DE CASOS DE USO (MODIFICADO)
-# ==========================================
+
 def generar_caso_de_uso_detectar_anomalias_industriales(contaminacion=0.05):
-    """
-    Genera los datos de prueba y calcula los resultados esperados.
-    Se modifica para retornar el DataFrame original y evitar doble creación.
-    """
-    # Creación única del DataFrame de sensores
+    
+    # Datos de ejemplo
     df = pd.DataFrame({
         "temperatura": [50, 52, 49, 300, 51, 48, 47, 500],
         "presion": [30, 29, 31, 100, 30, 29, 28, 150],
         "vibracion": [0.2, 0.25, 0.22, 5.0, 0.21, 0.19, 0.2, 6.0]
     })
 
-    # Procesamiento interno para obtener el ground truth (scores)
+    # Selección numérica
     datos_numericos = df.select_dtypes(include=[np.number])
+
+    # Imputación
     imputador = SimpleImputer(strategy='median')
     datos_limpios = imputador.fit_transform(datos_numericos)
 
+    # Modelo
     modelo = IsolationForest(contamination=contaminacion, random_state=42)
-    modelo.fit(datos_limpios)
+
+    # Resultados
+    predicciones = modelo.fit_predict(datos_limpios)
     scores = modelo.decision_function(datos_limpios)
 
-    # ✅ Retornamos el DF y los scores calculados
-    return df, scores.tolist()
+    # 🔥 Convertir predicciones a diccionario
+    resultado_dict = {
+        "anomalias": predicciones.tolist()
+    }
 
-# ==========================================
-# 3. EJECUCIÓN UNIFICADA
-# ==========================================
+    # ✅ Retornar lo que pide la plataforma
+    return resultado_dict, scores.tolist()
+
 if __name__ == "__main__":
-    # Llamamos al generador una sola vez para obtener los datos y el resultado esperado
-    i, expected_output = generar_caso_de_uso_detectar_anomalias_industriales(contaminacion=0.05)
+    i, o = generar_caso_de_uso_detectar_anomalias_industriales()
 
-    # Pasamos el DataFrame generado directamente a la función de solución
-    resultado_final = detectar_anomalias_sensores(i, contaminacion=0.05)
+    print('---- inputs ----')
+    for k, v in i.items():
+        print('\n', k, ':\n', v)
 
-    print("---- output ----")
-    print(resultado_final)
+    print('\n---- expected output ----\n', o)
